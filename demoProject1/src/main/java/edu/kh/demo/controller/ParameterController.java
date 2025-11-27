@@ -1,10 +1,17 @@
 package edu.kh.demo.controller;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import edu.kh.demo.model.dto.Member;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,12 +57,6 @@ public class ParameterController {
 		 * */
 		return "redirect:/param/main";
 }
-
-
-@PostMapping("test2") // /param/test2 POST 방식 요청 매핑
-public String paramTest2() {
-
-	return "redirect:";
 	
 	/* 2. @RequestParam 어노테이션 - 낱개 파라미터 얻어오기
 	 *
@@ -80,6 +81,81 @@ public String paramTest2() {
 	 *
 	 *
 	 * */
-
+	@PostMapping("test2") // /param/test2 POST 방식 요청 매핑
+	public String paramTest2(@RequestParam("title") String title,
+							@RequestParam("writer") String writer,
+							@RequestParam("price") int price,
+							// 매개변수의 자동형변환이 사용된 경우에는
+							// 파라미터값(value) 이 필수로 작성되어야 한다!
+							
+							@RequestParam(value="publisher", required = false,
+									defaultValue = "kh출판사") String publisher) {
+		
+		log.debug("title : " + title );
+		log.debug("writer : " + writer );
+		log.debug("price : " + price );
+		log.debug("publisher : " + publisher );
+			
+		
+		return "redirect:/param/main";
 }
+	
+	// 3. @RequestParam 여러개 파라미터 얻어오기
+	// - 같은 name속성값을 가진 파라미터 얻어오기
+	// - 제출된 파라미터 한번에 묶어서 얻어오기 (Map<String, Object>)
+	@PostMapping("test3")
+	public String paramTest3(@RequestParam("color") String[] colorArr, 
+							@RequestParam("fruit") List<String> fruitList,
+							@RequestParam Map<String, Object> paramMap
+		) {
+		
+		log.debug("colorArr : " + Arrays.toString(colorArr));
+		log.debug("fruits : " + fruitList );
+		log.debug("paramMap : " + paramMap );
+		// @RequestParam Map<String,Object> paramMap
+		// -> 제출된 모든 파라미터가 Map에 저장된다
+		// -> 같은 name 속성을 가진 파라미터는 배열이나 List 형태가 아님!!
+		// -> 첫번째로 제출된 value값만 저장이 됨
+		
+		return "redirect:/param/main";
+	
+	}
+	
+	// @ModelAttribute 를 이용한 파라미터 얻어오기
+	// @ModelAttribute
+	// - DTO (또는 VO) 와 같이 사용하는 어노테이션
+	
+	// 전달받은 파라미터의 name 속성값이
+	// 함께 사용되는 DTO의 필드명과 같다면
+	// 자동으로 setter를 호출해서 필드에 값을 저장
+	
+	
+	// *** 주의 사항 ***
+	// - DTO에 기본 생성자가 필수로 존재해야 함
+	// - DTO에 setter가 필수로 존재해야함
+	
+	// @ModelAttribute을 이용해 값이 필드에 세팅된 객체를
+	// "커맨드 객체" 라고 부름
+	
+	// @ModelAttribute 생략 가능!
+	@PostMapping("test4")
+	public String paramTest4(@ModelAttribute Member inputMember) {
+	
+		log.debug("inputMember: " + inputMember);
+		
+		return "redirect:main"; // 상대경로 작성법
+		// /parma/main
+		// 상대경로에서 중요한 부분 ! -> 현재위치!!!
+		// -> 현재 경로의 가장 마지막 레벨의 주소값을
+		//  "redirect:이주소" 로 변경하기 때문
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 }

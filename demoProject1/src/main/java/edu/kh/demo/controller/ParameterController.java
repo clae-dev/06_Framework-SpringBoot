@@ -31,7 +31,7 @@ public class ParameterController {
 	 * */
 	@PostMapping("test1") //   /param/test1 POST 방식 요청 매핑
 	public String paramTest1(HttpServletRequest req) {
-	
+		
 		String inputName = req.getParameter("inputName");
 		String inputAddress = req.getParameter("inputAddress");
 		int inputAge = Integer.parseInt(req.getParameter("inputAge"));
@@ -49,7 +49,37 @@ public class ParameterController {
 		 * 
 		 * */
 		return "redirect:/param/main";
-		
 }
+
+
+@PostMapping("test2") // /param/test2 POST 방식 요청 매핑
+public String paramTest2() {
+
+	return "redirect:";
 	
+	/* 2. @RequestParam 어노테이션 - 낱개 파라미터 얻어오기
+	 *
+	 * - request 객체를 이용한 파라미터 전달 어노테이션
+	 * - 매개변수 앞에 해당 어노테이션을 작성하면, 매개변수에 값이 주입됨.
+	 * - 주입되는 데이터는 매개변수의 타입에 맞게 형변환이 자동으로 수행됨.
+	 *
+	 * [기본 작성법]
+	 * @RequestParam("key") 자료형 매개변수명
+	 *
+	 * [속성 추가 작성법]
+	 * @RequestParam(value="key", required=false, defaultValue="1")
+	 *
+	 * value : 전달받은 input 태그의 name 속성값(파라미터 key)
+	 * required : 입력된 name 속성값 파라미터 필수 여부 지정(기본값 true)
+	 * -> required=true인 파라미터가 존재하지 않는다면 400(Bad Request) 에러 발생
+	 * -> "" (빈문자열)일 때는 에러 발생 X
+	 * (파라미터가 존재하지 않는것이 아니라 name속성값="" 로 넘어오기 때문에)
+	 *
+	 * defaultValue : 파라미터 중 일치하는 name속성값이 없을 경우에 대입할 값 지정.
+	 * -> required=false 인 경우 사용
+	 *
+	 *
+	 * */
+
+}
 }

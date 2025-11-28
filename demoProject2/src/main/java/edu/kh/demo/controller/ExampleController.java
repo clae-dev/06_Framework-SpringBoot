@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import edu.kh.demo.model.dto.Student;
@@ -28,7 +29,7 @@ public class ExampleController {
 	 * - @SessionAttribute와 함께 사용 시 session scope 변환
 	 * 
 	 * [기본 사용법]
-	 * model.addAttribute("key", value);
+	 * model.addAttribute("key", value);  // DTO랑 같이 사용하는 어노테이션
 	 * 
 	 * */
 	@GetMapping("ex1") //  /example/ex1 GET 방식 요청 매핑
@@ -70,8 +71,15 @@ public class ExampleController {
 		return "example/ex1";
 	}
 	
-	
-	
+	@PostMapping("ex2") // /example/ex2 POST 방식 요청 매핑
+	public String ex2(Model model) {
+		
+		model.addAttribute("str","<h1> 테스트 중 &times;</h1> ");
+		
+		
+		// src/main/resources/templates/example/ex2.html 로 forward
+		return "example/ex2";
+	}
 	
 	
 	

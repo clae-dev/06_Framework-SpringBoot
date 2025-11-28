@@ -81,7 +81,15 @@ public class ExampleController {
 		return "example/ex2";
 	}
 	
-	
+	@GetMapping("ex3")
+	public String ex3(Model model) {
+		
+		model.addAttribute("key", "제목");
+		model.addAttribute("query", "검색어");
+		model.addAttribute("boardNo", 10);
+		
+		return"example/ex3";
+	}
 	
 	
 	

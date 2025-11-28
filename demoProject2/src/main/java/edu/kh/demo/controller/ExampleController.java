@@ -1,11 +1,13 @@
 package edu.kh.demo.controller;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -91,6 +93,42 @@ public class ExampleController {
 		return"example/ex3";
 	}
 	
+	@GetMapping("ex3/{path}")
+	public String pathVariableTest
+				(@PathVariable("path") int path) {
+		// controller에서 해야하는 로직이 동일한 경우에
+		// example/ex3/1, example/ex3/2, example/ex3/3 ...
+		// 주소 중 {path} 부분의 값을 가져와서 매개변수로 저장
+		// 이 매개변수 값을 controller단의 메서드에서
+		// 사용할 수 있도록 해줌 (이 값을 Service -> DAO -> DB)
+		// + Request scope에 자동 세팅됨
+		// 변수명=값 
+		
+		return "example/testResult";
+	}
 	
+	@GetMapping("ex4")
+	public String ex4(Model model) {
+		
+		Student std = new Student("67890", "잠만보", 22);
+		model.addAttribute("std", std);
+		model.addAttribute("num", 100);
+		
+		return "example/ex4";
+	}
+	
+	@GetMapping("ex5")
+	public String ex5(Model model) {
+		
+		model.addAttribute("message", "타임리프 + Javascript 사용연습");
+		model.addAttribute("num1", 12345);
+		
+		Student std = new Student();
+		std.setStudentNo("2222");
+		model.addAttribute("student", std);
+		
+		
+		return "example/ex5";
+	}
 	
 }

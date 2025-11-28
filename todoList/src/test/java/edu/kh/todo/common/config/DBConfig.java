@@ -71,7 +71,17 @@ public class DBConfig {
 		// 3) 트랜잭션 관리
 		return dataSource;
 			}	
-		////////////////////////////Mybatis 설정 추가 ////////////////////////////
+	
+	
+		////////////////////////////Mybatis 설정 추가 /////////////////////
+		//////////
+		
+		// Mybatis : Java 애플리케이션에서 SQL을 더 쉽게 사용할 수 있도록 도와주는
+		//			영속성 프레임워크
+		// 영속성 프레임워크(Persistence Framework)는 애플리케이션의 데이터를
+		// 데이터베이스와 같은 저장소에 영구적으로 저장하고
+		// 이를 쉽게 CRUD 할 수 있도록 도와주는 프레임워크
+	
 		//SqlSessionFactory : SqlSession을 만드는 객체
 		@Bean
 		public SqlSessionFactory sessionFactory(DataSource dataSource) throws Exception{
@@ -79,11 +89,19 @@ public class DBConfig {
 		sessionFactoryBean.setDataSource(dataSource);
 		//매퍼 파일이 모여있는 경로 지정
 		sessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:/mappers/**.xml"));
+		
 		// 별칭을 지정해야하는 DTO가 모여있는 패키지 지정
 		// -> 해당 패키지에 있는 모든 클래스가 클래스명으로 별칭이 지정됨
-		sessionFactoryBean.setTypeAliasesPackage("edu.kh.project.member.model.dto");
+		sessionFactoryBean.setTypeAliasesPackage("edu.kh.todo");
+		// -> edu.kh.todo 세팅 시 패키지 하위에 있는 모든 클래스가
+		// 클래스명으로 별칭이 지정됨.
+		// -> ex) edu.kh.todo.model.dto.Todo -> Todo (별칭 등록)
+		
+		
 		// 마이바티스 설정 파일 경로 지정
-		sessionFactoryBean.setConfigLocation(applicationContext.getResource("classpath:mybatis-config.xml"));
+		sessionFactoryBean.setConfigLocation(
+				applicationContext.getResource("classpath:mybatis-config.xml"));
+		
 		// SqlSession 객체 반환
 		return sessionFactoryBean.getObject();
 		}

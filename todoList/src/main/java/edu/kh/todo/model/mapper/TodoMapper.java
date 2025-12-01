@@ -31,7 +31,7 @@ public interface TodoMapper {
 
 	int addTodo(Todo todo);
 	
-	
+	Todo todoDetail(int todoNo);
 	
 	
 	

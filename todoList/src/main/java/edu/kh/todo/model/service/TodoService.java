@@ -2,6 +2,9 @@ package edu.kh.todo.model.service;
 
 import java.util.Map;
 
+import edu.kh.todo.model.dto.Todo;
+
+
 public interface TodoService {
 
 	/** (TEST) todoNo가 1인 할 일 제목 조회
@@ -20,5 +23,12 @@ public interface TodoService {
 	 * @return
 	 */
 	int addTodo(String todoTitle, String todoContent);
+
+	
+	/** 할 일 상세조회
+	 * @param todoNo
+	 * @return todo
+	 */
+	Todo todoDetail(int todoNo);
 
 }
